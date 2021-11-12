@@ -1,6 +1,11 @@
+// ignore_for_file: avoid_print
+
 import 'package:bid_mobile/data/mainTheme.dart';
+import 'package:bid_mobile/screens/Auth/Password.screen.dart';
 import 'package:bid_mobile/screens/Auth/SignUp.screen.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -10,8 +15,23 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  void onPressLogin() {
+    FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+            email: emailController.text, password: passwordController.text)
+        .then((response) => print("로그인 성공"))
+        .catchError((error) => print("로그인 : $error"));
+  }
+
+  void onPressPasswordButton() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const PasswordScreen()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,13 +60,13 @@ class _SignInScreenState extends State<SignInScreen> {
             TextField(
               controller: emailController,
               decoration: const InputDecoration(
-                hintText: "가입한 이메일을 입력해주세요",
+                hintText: "이메일을 입력해주세요",
               ),
             ),
             const SizedBox(
               height: 20,
             ),
-             Align(
+            Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 "비밀번호",
@@ -61,11 +81,14 @@ class _SignInScreenState extends State<SignInScreen> {
               decoration: const InputDecoration(
                 hintText: "비밀번호를 입력해주세요",
               ),
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
             ),
             Align(
               alignment: Alignment.centerRight,
               child: TextButton(
-                onPressed: () {},
+                onPressed: onPressPasswordButton,
                 child: const Text("비밀번호 찾기"),
               ),
             ),
@@ -82,7 +105,7 @@ class _SignInScreenState extends State<SignInScreen> {
               height: 50,
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: onPressLogin,
                 child: const Text("로그인",
                     style: TextStyle(
                       color: Colors.white,
