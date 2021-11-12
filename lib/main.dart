@@ -2,8 +2,7 @@
 
 import 'package:bid_mobile/data/mainTheme.dart';
 import 'package:bid_mobile/screens/Auth/SignIn.screen.dart';
-import 'package:bid_mobile/screens/Auth/SignUp.screen.dart';
-import 'package:bid_mobile/screens/Home/Home.screen.dart';
+import 'package:bid_mobile/screens/Main.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -71,7 +70,7 @@ class _MyAppState extends State<MyApp> {
           ),
           debugShowCheckedModeBanner: false,
           color: Colors.blue,
-          home: const HomeScreen());
+          home: const MainScreen());
     }
   }
 }
