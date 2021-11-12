@@ -1,5 +1,6 @@
 import 'package:bid_mobile/data/mainTheme.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -20,6 +21,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  void onPressNextButton() {
+    // FirebaseAuth.instance.signOut();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +139,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 50,
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: onPressNextButton,
                   child: const Text("다음",
                       style: TextStyle(
                         color: Colors.white,

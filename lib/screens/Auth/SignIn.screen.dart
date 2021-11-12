@@ -5,7 +5,6 @@ import 'package:bid_mobile/screens/Auth/Password.screen.dart';
 import 'package:bid_mobile/screens/Auth/SignUp.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -15,8 +14,6 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -26,11 +23,12 @@ class _SignInScreenState extends State<SignInScreen> {
             email: emailController.text, password: passwordController.text)
         .then((response) => print("로그인 성공"))
         .catchError((error) => print("로그인 : $error"));
+    // FirebaseAuth.instance.signOut();
   }
 
   void onPressPasswordButton() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const PasswordScreen()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const PasswordScreen()));
   }
 
   @override
