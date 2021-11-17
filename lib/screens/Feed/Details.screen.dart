@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({Key? key}) : super(key: key);
@@ -11,6 +14,13 @@ class DetailsScreen extends StatefulWidget {
 class _DetailsScreenState extends State<DetailsScreen> {
   String bidPrice = '39,000';
   String buyPrice = '50,000';
+
+  void getData() async {
+    String url = 'http://127.0.0.1:8000/api/product/';
+    var response = await http.get(Uri.parse(url));
+
+    print(jsonDecode(response.body));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +95,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               ),
               const Spacer(),
               GestureDetector(
-                onTap: () {},
+                onTap: getData,
                 child: Container(
                   width: 130,
                   height: 50,
