@@ -49,7 +49,19 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
-  late Future<Post> post;
+  var sampleData = [1, 2, 3, 4, 5, 6, 7];
+
+  TextStyle keyText = const TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    color: Colors.black45,
+  );
+
+  TextStyle valueText = const TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: Colors.black,
+  );
 
   onPressDetails() {
     Navigator.push(context,
@@ -59,27 +71,114 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          const SafeArea(child: SizedBox()),
-          CupertinoButton(
-            child: const Text("상세 정보"),
-            onPressed: onPressDetails,
-          ),
-          FutureBuilder<List<Post>>(
-            future: fetchPosts(http.Client()),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return PostsList(posts: snapshot.data!);
-              } else if (snapshot.hasError) {
-                return const Text("Error");
-              } else {
-                return const CircularProgressIndicator();
-              }
-            },
-          )
-        ],
+      appBar: AppBar(
+        title: Text("FEED"),
       ),
+      body: Container(
+        child: ListView.builder(
+            itemCount: sampleData.length,
+            itemBuilder: (context, int index) {
+              return GestureDetector(
+                onTap: onPressDetails,
+                child: Container(
+                    alignment: Alignment.center,
+                    // margin: const EdgeInsets.symmetric(vertical: 5),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25, vertical: 25),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.black38,
+                          width: 0.5,
+                        ),
+                      ),
+                      // borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(right: 15),
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          height: MediaQuery.of(context).size.width * 0.25,
+                          decoration: BoxDecoration(
+                            color: Colors.black12,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 5),
+                              child: const Text(
+                                "아이패드 프로 4세대 11인치",
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                  text: "입찰가 ",
+                                  style: keyText,
+                                ),
+                                TextSpan(
+                                  text: "550,000원",
+                                  style: valueText,
+                                )
+                              ]),
+                            ),
+                            RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                  text: "입찰수 ",
+                                  style: keyText,
+                                ),
+                                TextSpan(
+                                  text: "17회",
+                                  style: valueText,
+                                )
+                              ]),
+                            ),
+                            RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                  text: "마감 ",
+                                  style: keyText,
+                                ),
+                                TextSpan(
+                                  text: "21.11.10 10:00 AM",
+                                  style: valueText,
+                                )
+                              ]),
+                            ),
+                          ],
+                        )
+                      ],
+                    )),
+              );
+            }),
+      ),
+      // body: Column(
+      //   children: [
+      //     const SafeArea(child: SizedBox()),
+      //     FutureBuilder<List<Post>>(
+      //       future: fetchPosts(http.Client()),
+      //       builder: (context, snapshot) {
+      //         if (snapshot.hasData) {
+      //           return PostsList(posts: snapshot.data!);
+      //         } else if (snapshot.hasError) {
+      //           return const Text("Error");
+      //         } else {
+      //           return const CircularProgressIndicator();
+      //         }
+      //       },
+      //     )
+      //   ],
+      // ),
     );
   }
 }
