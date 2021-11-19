@@ -72,7 +72,12 @@ class _FeedScreenState extends State<FeedScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("FEED"),
+        title: const Text(
+          "FEED",
+          style: TextStyle(color: Colors.black),
+        ),
+        shadowColor: const Color.fromRGBO(0, 0, 0, 0),
+        backgroundColor: Colors.white,
       ),
       body: Container(
         child: ListView.builder(
