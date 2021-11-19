@@ -120,40 +120,52 @@ class _FeedScreenState extends State<FeedScreen> {
                               ),
                             ),
                             RichText(
-                              text: TextSpan(children: [
-                                TextSpan(
-                                  text: "입찰가 ",
-                                  style: keyText,
-                                ),
-                                TextSpan(
-                                  text: "550,000원",
-                                  style: valueText,
-                                )
-                              ]),
+                              text: TextSpan(
+                                  style: const TextStyle(
+                                    fontFamily: 'NanumSquare',
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: "입찰가 ",
+                                      style: keyText,
+                                    ),
+                                    TextSpan(
+                                      text: "550,000원",
+                                      style: valueText,
+                                    )
+                                  ]),
                             ),
                             RichText(
-                              text: TextSpan(children: [
-                                TextSpan(
-                                  text: "입찰수 ",
-                                  style: keyText,
-                                ),
-                                TextSpan(
-                                  text: "17회",
-                                  style: valueText,
-                                )
-                              ]),
+                              text: TextSpan(
+                                  style: const TextStyle(
+                                    fontFamily: 'NanumSquare',
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: "입찰수 ",
+                                      style: keyText,
+                                    ),
+                                    TextSpan(
+                                      text: "17회",
+                                      style: valueText,
+                                    )
+                                  ]),
                             ),
                             RichText(
-                              text: TextSpan(children: [
-                                TextSpan(
-                                  text: "마감 ",
-                                  style: keyText,
-                                ),
-                                TextSpan(
-                                  text: "21.11.10 10:00 AM",
-                                  style: valueText,
-                                )
-                              ]),
+                              text: TextSpan(
+                                  style: const TextStyle(
+                                    fontFamily: 'NanumSquare',
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: "마감일 ",
+                                      style: keyText,
+                                    ),
+                                    TextSpan(
+                                      text: "21.11.10 10:00 AM",
+                                      style: valueText,
+                                    )
+                                  ]),
                             ),
                           ],
                         )

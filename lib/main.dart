@@ -58,6 +58,7 @@ class _MyAppState extends State<MyApp> {
     if (FirebaseAuth.instance.currentUser == null) {
       return MaterialApp(
           theme: ThemeData(
+            fontFamily: 'NanumSquare',
             primarySwatch: MaterialColor(0xff315596, themeColor),
           ),
           debugShowCheckedModeBanner: false,
@@ -66,6 +67,7 @@ class _MyAppState extends State<MyApp> {
     } else {
       return MaterialApp(
           theme: ThemeData(
+            fontFamily: 'NanumSquare',
             primarySwatch: MaterialColor(0xff315596, themeColor),
           ),
           debugShowCheckedModeBanner: false,
