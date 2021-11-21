@@ -22,6 +22,32 @@ class _DetailsScreenState extends State<DetailsScreen> {
     print(jsonDecode(response.body));
   }
 
+  void onPressMoreButton() {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+          // title: const Text('Choose Options'),
+          // message: const Text('Your options are '),
+          actions: <Widget>[
+            CupertinoActionSheetAction(
+              child: const Text('신고하기'),
+              onPressed: () {},
+            ),
+            CupertinoActionSheetAction(
+              child: const Text('차단'),
+              onPressed: () {},
+            )
+          ],
+          cancelButton: CupertinoActionSheetAction(
+            child: const Text('닫기'),
+            isDefaultAction: true,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          )),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +59,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
           "상품 정보",
           style: TextStyle(color: Colors.black),
         ),
+        actions: [
+          IconButton(
+            onPressed: onPressMoreButton,
+            icon: const Icon(Icons.more_vert),
+          )
+        ],
       ),
       body: Container(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -163,7 +195,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   ),
                 ),
               ],
-            )
+            ),
+            const Divider(
+              height: 40,
+            ),
           ],
         ),
       ),
