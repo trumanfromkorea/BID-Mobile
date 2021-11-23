@@ -5,15 +5,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
+import 'package:dio/dio.dart';
 
 Future<List<Post>> fetchPosts(http.Client client) async {
   String url = 'http://127.0.0.1:8000/api/product/';
-  final response = await client.get(Uri.parse(url));
-  print(response.body);
-  return compute(parsePosts, response.body);
+  final response = await Dio().get(url);
+  print(response);
+  return compute(parsePosts, response);
 }
 
-List<Post> parsePosts(String responseBody) {
+List<Post> parsePosts(dynamic responseBody) {
   final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
   return parsed.map<Post>((json) => Post.fromJson(json)).toList();
@@ -22,21 +23,25 @@ List<Post> parsePosts(String responseBody) {
 class Post {
   final int id;
   final String name;
-  final int price;
-  final String createdAt;
+  final int startPrice;
+  final int bidCount;
+  final String expireDate;
 
-  Post(
-      {required this.id,
-      required this.name,
-      required this.price,
-      required this.createdAt});
+  Post({
+    required this.id,
+    required this.name,
+    required this.startPrice,
+    required this.bidCount,
+    required this.expireDate,
+  });
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
       id: json['id'] as int,
       name: json['name'] as String,
-      price: json['price'] as int,
-      createdAt: json['created_at'] as String,
+      startPrice: json['startPrice'] as int,
+      bidCount: json['bidCount'] as int,
+      expireDate: json['expireDate'] as String,
     );
   }
 }
@@ -68,6 +73,24 @@ class _FeedScreenState extends State<FeedScreen> {
         MaterialPageRoute(builder: (context) => const DetailsScreen()));
   }
 
+  List dataList = [];
+
+  void initList() async {
+    String url = 'http://127.0.0.1:8000/api/product/';
+    final response = await Dio().get(url);
+    // print(response.data);
+    setState(() {
+      dataList = response.data;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,8 +104,10 @@ class _FeedScreenState extends State<FeedScreen> {
       ),
       body: Container(
         child: ListView.builder(
-            itemCount: sampleData.length,
+            itemCount: dataList.length,
             itemBuilder: (context, int index) {
+              String dateString = dataList[index]['expireDate'].split('T')[0];
+
               return GestureDetector(
                 onTap: onPressDetails,
                 child: Container(
@@ -116,9 +141,9 @@ class _FeedScreenState extends State<FeedScreen> {
                           children: [
                             Container(
                               margin: const EdgeInsets.only(bottom: 5),
-                              child: const Text(
-                                "아이패드 프로 4세대 11인치",
-                                style: TextStyle(
+                              child: Text(
+                                dataList[index]['name'],
+                                style: const TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -135,7 +160,9 @@ class _FeedScreenState extends State<FeedScreen> {
                                       style: keyText,
                                     ),
                                     TextSpan(
-                                      text: "550,000원",
+                                      text: dataList[index]['startPrice']
+                                              .toString() +
+                                          "원",
                                       style: valueText,
                                     )
                                   ]),
@@ -151,7 +178,9 @@ class _FeedScreenState extends State<FeedScreen> {
                                       style: keyText,
                                     ),
                                     TextSpan(
-                                      text: "17회",
+                                      text: dataList[index]['bidCount']
+                                              .toString() +
+                                          "회",
                                       style: valueText,
                                     )
                                   ]),
@@ -167,7 +196,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                       style: keyText,
                                     ),
                                     TextSpan(
-                                      text: "21.11.10 10:00 AM",
+                                      text: dateString,
                                       style: valueText,
                                     )
                                   ]),
@@ -188,6 +217,7 @@ class _FeedScreenState extends State<FeedScreen> {
       //         if (snapshot.hasData) {
       //           return PostsList(posts: snapshot.data!);
       //         } else if (snapshot.hasError) {
+      //           print(snapshot.error);
       //           return const Text("Error");
       //         } else {
       //           return const CircularProgressIndicator();
