@@ -86,7 +86,6 @@ class _FeedScreenState extends State<FeedScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     initList();
   }

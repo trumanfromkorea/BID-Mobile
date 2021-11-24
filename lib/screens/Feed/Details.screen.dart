@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({Key? key}) : super(key: key);
@@ -17,9 +18,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   void getData() async {
     String url = 'http://127.0.0.1:8000/api/product/';
-    var response = await http.get(Uri.parse(url));
+    var response = await Dio().post(url, data: {
+      'name': 'testName',
+      'startPrice': 1008,
+      'bidCount': 10,
+    });
 
-    print(jsonDecode(response.body));
+    print(response.statusCode);
   }
 
   void onPressMoreButton() {
