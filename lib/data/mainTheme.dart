@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 
+Color mainThemeColor = const Color(0xff315596);
+
 Map<int, Color> themeColor = {
   50: const Color(0xff315596),
   100: const Color(0xff315596),
