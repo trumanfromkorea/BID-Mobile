@@ -61,6 +61,9 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(
             fontFamily: 'NanumSquare',
             primarySwatch: MaterialColor(0xff315596, themeColor),
+            bottomSheetTheme: const BottomSheetThemeData(
+              backgroundColor: Color(0x00000000),
+            ),
           ),
           debugShowCheckedModeBanner: false,
           color: Colors.blue,
@@ -70,6 +73,9 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(
             fontFamily: 'NanumSquare',
             primarySwatch: MaterialColor(0xff315596, themeColor),
+            bottomSheetTheme: const BottomSheetThemeData(
+              backgroundColor: Color(0x00000000),
+            ),
           ),
           debugShowCheckedModeBanner: false,
           color: Colors.blue,
