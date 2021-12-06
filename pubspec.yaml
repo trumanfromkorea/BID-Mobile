@@ -39,6 +39,7 @@ dependencies:
   http: ^0.13.4
   flutter_svg: ^0.23.0+1
   dio: ^4.0.4
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
