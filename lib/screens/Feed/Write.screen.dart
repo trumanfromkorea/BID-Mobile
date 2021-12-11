@@ -1,5 +1,6 @@
 import 'package:bid_mobile/data/mainTheme.dart';
 import 'package:bid_mobile/screens/Feed/Category.screen.dart';
+import 'package:bid_mobile/widgets/Feed/InputPrice.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -13,129 +14,34 @@ class WriteScreen extends StatefulWidget {
 
 class _WriteScreenState extends State<WriteScreen> {
   String _category = "카테고리 선택";
-  String priceText = "";
-  int price = 0;
   String sellPrice = "가격 입력";
 
   TextEditingController priceController = TextEditingController(text: "");
   var f = NumberFormat('###,###,###,###');
 
   void onPressCategory() async {
-    final String result = await Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const CategoryScreen()));
+    final String result = await Navigator.push(context, MaterialPageRoute(builder: (context) => const CategoryScreen()));
 
     setState(() {
       _category = result;
     });
   }
 
-  void showModalSheet() {
+  void priceSetter(String _price) {
     setState(() {
-      price = 0;
-      priceController.text = price.toString() + ' 원';
+      sellPrice = _price;
     });
+  }
+
+  void showModalSheet() {
     showModalBottomSheet(
       context: context,
       builder: (context) {
-        return Container(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            ),
-            color: Colors.white,
-          ),
-          child: Column(
-            children: [
-              Container(
-                height: 3,
-                width: 60,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  color: Colors.black26,
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Text("가격 입력"),
-              TextFormField(
-                textAlign: TextAlign.right,
-                controller: priceController,
-                decoration: InputDecoration(
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color(0xffe0e0e0),
-                      width: 1,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                    color: mainThemeColor,
-                    width: 1,
-                  )),
-                  hintText: "가격을 입력해주세요",
-                  hintStyle: TextStyle(
-                    color: Color(0xffc2c2c2),
-                  ),
-                ),
-                keyboardType: TextInputType.number,
-                onChanged: (value) {
-                  String valueText = value.replaceAll(',', '').split(' ')[0];
-                  priceController.text = f.format(int.parse(valueText)) + ' 원';
-                },
-              ),
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        price = price + 50000;
-                        priceController.text = f.format(price) + ' 원';
-                      });
-                    },
-                    child: Text("+50,000원"),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        price = price + 10000;
-                        priceController.text = f.format(price) + ' 원';
-                      });
-                    },
-                    child: Text(
-                      "+10,000원",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        price = price + 5000;
-                        priceController.text = f.format(price) + ' 원';
-                      });
-                    },
-                    child: Text("+5,000원"),
-                  ),
-                ],
-              ),
-              CupertinoButton.filled(
-                onPressed: () {
-                  setState(() {
-                    sellPrice = priceController.text;
-                  });
-                  Navigator.pop(context);
-                  
-                },
-                child:Text("확인"),
-              )
-            ],
-          ),
+        return InputPriceModal(
+          priceSetter: priceSetter,
         );
       },
+      // isScrollControlled: true,
     );
   }
 
@@ -241,7 +147,7 @@ class _WriteScreenState extends State<WriteScreen> {
                               height: 10,
                             ),
                             Text(
-                              sellPrice,
+                              "$sellPrice 원",
                               style: TextStyle(
                                 color: mainThemeColor,
                                 fontSize: 16,

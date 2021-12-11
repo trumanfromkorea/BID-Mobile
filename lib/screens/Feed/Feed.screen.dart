@@ -55,7 +55,7 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
-  var sampleData = [1, 2, 3, 4, 5, 6, 7];
+  // var sampleData = [1, 2, 3, 4, 5, 6, 7];
 
   TextStyle keyText = const TextStyle(
     fontSize: 13,
