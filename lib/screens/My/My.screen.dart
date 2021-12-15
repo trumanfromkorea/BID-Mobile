@@ -1,6 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class MyScreen extends StatefulWidget {
   const MyScreen({Key? key}) : super(key: key);
@@ -10,6 +10,9 @@ class MyScreen extends StatefulWidget {
 }
 
 class _MyScreenState extends State<MyScreen> {
+
+  User currentUser = FirebaseAuth.instance.currentUser!;
+
   void onPressLogout() {
     FirebaseAuth.instance.signOut();
   }
@@ -73,9 +76,9 @@ class _MyScreenState extends State<MyScreen> {
                         fontSize: 20,
                       ),
                     ),
-                    const Text(
-                      "jangjh971008@naver.com",
-                      style: TextStyle(
+                    Text(
+                      currentUser.email!,
+                      style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
                       ),

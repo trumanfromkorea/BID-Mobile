@@ -1,11 +1,11 @@
 // ignore_for_file: avoid_print
 
 import 'package:bid_mobile/data/mainTheme.dart';
+import 'package:bid_mobile/models/auth/auth.model.dart';
 import 'package:bid_mobile/screens/Auth/Password.screen.dart';
 import 'package:bid_mobile/screens/Auth/SignUp.screen.dart';
 import 'package:bid_mobile/widgets/common/Loading.widget.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -20,26 +20,28 @@ class _SignInScreenState extends State<SignInScreen> {
 
   bool loading = false;
 
-  void onPressLogin() {
+  setLoadingTrue() {
     setState(() {
       loading = true;
     });
-    FirebaseAuth.instance
-        .signInWithEmailAndPassword(
-      email: emailController.text,
-      password: passwordController.text,
-    )
-        .then((response) {
-      print("로그인 성공");
-      setState(() {
-        loading = false;
-      });
-    }).catchError((error) {
-      print("로그인 에러 : $error");
-      setState(() {
-        loading = false;
-      });
+  }
+
+  setLoadingFalse() {
+    setState(() {
+      loading = false;
     });
+  }
+
+  void _signInWithEmail() async {
+    setLoadingTrue();
+    await signInWithEmail(emailController.text, passwordController.text);
+    setLoadingFalse();
+  }
+
+  void _signInWithGoogle() async {
+    setLoadingTrue();
+    await signInWithGoogle();
+    setLoadingFalse();
   }
 
   void onPressPasswordButton() {
@@ -114,70 +116,87 @@ class _SignInScreenState extends State<SignInScreen> {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpScreen()));
                     },
                     child: const Text("이메일로 회원가입하기")),
-                SizedBox(
-                  height: 50,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: onPressLogin,
+                GestureDetector(
+                  onTap: _signInWithEmail,
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: mainThemeColor,
+                    ),
                     child: const Text("로그인",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         )),
                   ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                SizedBox(
-                  height: 50,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "카카오톡으로 로그인",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
+                GestureDetector(
+                  onTap: (){},
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color(0xfffee500),
                     ),
-                    style: ElevatedButton.styleFrom(primary: Colors.yellow),
+                    child: const Text("카카오 로그인",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        )),
                   ),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                SizedBox(
-                  height: 50,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "Google 아이디로 로그인",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
+                GestureDetector(
+                  onTap: _signInWithGoogle,
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: Colors.black45,
+                        width: 0.3,
                       ),
+                      color: Colors.white,
                     ),
-                    style: ElevatedButton.styleFrom(primary: Colors.white, shadowColor: Colors.black),
+                    child: const Text("Google 로 로그인",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        )),
                   ),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                SizedBox(
-                  height: 50,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "Apple 아이디로 로그인",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
+               GestureDetector(
+                  onTap: (){},
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.black,
                     ),
-                    style: ElevatedButton.styleFrom(primary: Colors.black),
+                    child: const Text("Apple 로 로그인",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        )),
                   ),
                 ),
                 const SafeArea(child: SizedBox()),
