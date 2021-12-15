@@ -1,11 +1,13 @@
 // ignore_for_file: avoid_print
 
 import 'package:bid_mobile/data/mainTheme.dart';
+import 'package:bid_mobile/models/auth/auth.controller.dart';
 import 'package:bid_mobile/screens/Auth/SignIn.screen.dart';
 import 'package:bid_mobile/screens/Main.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,6 +58,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(AuthController());
+
     if (FirebaseAuth.instance.currentUser == null) {
       return MaterialApp(
           theme: ThemeData(
@@ -69,7 +73,7 @@ class _MyAppState extends State<MyApp> {
           color: Colors.blue,
           home: const SignInScreen());
     } else {
-      return MaterialApp(
+      return GetMaterialApp(
           theme: ThemeData(
             fontFamily: 'NanumSquare',
             primarySwatch: MaterialColor(0xff315596, themeColor),

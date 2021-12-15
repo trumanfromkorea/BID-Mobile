@@ -1,3 +1,4 @@
+import 'package:bid_mobile/models/auth/auth.controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,6 @@ class MyScreen extends StatefulWidget {
 }
 
 class _MyScreenState extends State<MyScreen> {
-
   User currentUser = FirebaseAuth.instance.currentUser!;
 
   void onPressLogout() {
@@ -35,6 +35,12 @@ class _MyScreenState extends State<MyScreen> {
     color: Colors.black87,
     fontWeight: FontWeight.bold,
   );
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,8 +93,7 @@ class _MyScreenState extends State<MyScreen> {
                       child: Container(
                         alignment: Alignment.center,
                         margin: const EdgeInsets.only(top: 10),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 5),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
@@ -124,9 +129,7 @@ class _MyScreenState extends State<MyScreen> {
             ),
             Container(
               padding: const EdgeInsets.symmetric(vertical: 20),
-              decoration: BoxDecoration(
-                  color: Color(0xffeeeeee),
-                  borderRadius: BorderRadius.circular(10)),
+              decoration: BoxDecoration(color: Color(0xffeeeeee), borderRadius: BorderRadius.circular(10)),
               child: Row(
                 children: [
                   Container(
