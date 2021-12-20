@@ -14,12 +14,13 @@ class WriteScreen extends StatefulWidget {
 
 class _WriteScreenState extends State<WriteScreen> {
   String _category = "카테고리 선택";
-  String sellPrice = "가격 입력";
+  String? sellPrice;
+  String? bidPrice;
 
   TextEditingController priceController = TextEditingController(text: "");
   var f = NumberFormat('###,###,###,###');
 
-  void onPressCategory() async {
+  onPressCategory() async {
     final String result = await Navigator.push(context, MaterialPageRoute(builder: (context) => const CategoryScreen()));
 
     setState(() {
@@ -27,158 +28,183 @@ class _WriteScreenState extends State<WriteScreen> {
     });
   }
 
-  void priceSetter(String _price) {
+  priceSetter(String _price) {
     setState(() {
       sellPrice = _price;
     });
   }
 
-  void showModalSheet() {
+  showPricePicker(String price) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       builder: (context) {
         return InputPriceModal(
-          priceSetter: priceSetter,
+          priceSetter: (value) {
+            setState(() {
+              if (price == "bid") {
+                bidPrice = value;
+              } else {
+                sellPrice = value;
+              }
+            });
+          },
         );
       },
-      // isScrollControlled: true,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text(
-          "판매글 작성",
-          style: TextStyle(color: Colors.black),
-        ),
-        shadowColor: const Color.fromRGBO(0, 0, 0, 0),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
         backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: Colors.black),
-        actions: [
-          CupertinoButton(
-            child: Text(
-              "등록",
-              style: TextStyle(fontFamily: 'NanumSquare'),
-            ),
-            onPressed: () {},
+        appBar: AppBar(
+          title: const Text(
+            "판매글 작성",
+            style: TextStyle(color: Colors.black),
           ),
-        ],
-      ),
-      body: Container(
-        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: "제목",
-                hintStyle: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+          shadowColor: const Color.fromRGBO(0, 0, 0, 0),
+          backgroundColor: Colors.white,
+          iconTheme: const IconThemeData(color: Colors.black),
+          actions: [
+            CupertinoButton(
+              child: const Text(
+                "등록",
+                style: TextStyle(fontFamily: 'NanumSquare'),
               ),
+              onPressed: () {},
             ),
-            const Divider(),
-            GestureDetector(
-              onTap: onPressCategory,
-              child: Container(
-                color: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      _category,
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "제목",
+                    hintStyle: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
-                    Icon(Icons.chevron_right),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            const Divider(),
-            IntrinsicHeight(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                const Divider(),
+                GestureDetector(
+                  onTap: onPressCategory,
+                  child: Container(
+                    color: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(vertical: 5),
-                          child: Text("경매 시작가"),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
                         Text(
-                          "가격 입력",
-                          style: TextStyle(
-                            color: mainThemeColor,
-                            fontSize: 16,
+                          _category,
+                          style: const TextStyle(
+                            fontSize: 15,
                           ),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        const Icon(Icons.chevron_right),
                       ],
                     ),
                   ),
-                  const VerticalDivider(),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: showModalSheet,
-                      child: Container(
-                        color: Colors.white,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(vertical: 5),
-                              child: Text("즉시 판매가"),
+                ),
+                const Divider(),
+                IntrinsicHeight(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            showPricePicker("bid");
+                          },
+                          child: Container(
+                            color: Colors.white,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(vertical: 5),
+                                  child: const Text("경매 시작가"),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  bidPrice == null ? "가격 입력" : "$bidPrice 원",
+                                  style: TextStyle(
+                                    color: mainThemeColor,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "$sellPrice 원",
-                              style: TextStyle(
-                                color: mainThemeColor,
-                                fontSize: 16,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                          ],
+                          ),
                         ),
                       ),
+                      const VerticalDivider(),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            showPricePicker("sell");
+                          },
+                          child: Container(
+                            color: Colors.white,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(vertical: 5),
+                                  child: const Text("즉시 판매가"),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  sellPrice == null ? "가격 입력" : "$sellPrice 원",
+                                  style: TextStyle(
+                                    color: mainThemeColor,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Divider(),
+                const TextField(
+                  maxLines: 15,
+                  minLines: 15,
+                  maxLength: 300,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "제품 설명을 적어주세요",
+                    hintStyle: TextStyle(
+                      fontSize: 15,
                     ),
                   ),
-                ],
-              ),
-            ),
-            const Divider(),
-            TextField(
-              maxLines: 15,
-              minLines: 15,
-              maxLength: 300,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: "제품 설명을 적어주세요",
-                hintStyle: TextStyle(
-                  fontSize: 15,
                 ),
-              ),
+                const Divider(),
+              ],
             ),
-            const Divider(),
-          ],
+          ),
         ),
       ),
     );

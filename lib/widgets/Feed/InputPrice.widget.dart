@@ -25,9 +25,12 @@ class _InputPriceModalState extends State<InputPriceModal> {
     var marginBottom = MediaQuery.of(context).viewInsets.bottom;
     print(marginBottom);
     return Container(
-      // height: MediaQuery.of(context).size.height * 0.3,
-      // padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      padding: EdgeInsets.only(bottom:marginBottom),
+      padding: EdgeInsets.fromLTRB(
+        20,
+        10,
+        20,
+        MediaQuery.of(context).viewInsets.bottom + 40,
+      ),
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
@@ -36,6 +39,7 @@ class _InputPriceModalState extends State<InputPriceModal> {
         color: Colors.white,
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             height: 3,

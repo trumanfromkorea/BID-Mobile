@@ -1,3 +1,4 @@
+import 'package:bid_mobile/data/mainTheme.dart';
 import 'package:bid_mobile/models/auth/auth.controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,6 +16,56 @@ class _MyScreenState extends State<MyScreen> {
 
   void onPressLogout() {
     FirebaseAuth.instance.signOut();
+  }
+
+  showVersion() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Center(
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text("버전 정보",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: mainThemeColor,
+                      ),),
+                      const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Text(
+                        "현재 버전",
+                        style: TextStyle(fontSize: 13, color: Colors.black87),
+                      ),
+                      SizedBox(width: 100),
+                      Text("1.0.0"),
+                    ],
+                  ),
+                  const SizedBox(height: 5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Text("최신 버전",style:TextStyle(fontSize: 13, color: Colors.black87)),
+                       SizedBox(width: 100),
+                      Text("1.0.0"),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   TextStyle keyText = const TextStyle(
@@ -281,6 +332,22 @@ class _MyScreenState extends State<MyScreen> {
                   children: [
                     Text(
                       "로그아웃",
+                      style: buttonText,
+                    ),
+                    const Spacer(),
+                    const Icon(Icons.chevron_right),
+                  ],
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: showVersion,
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  children: [
+                    Text(
+                      "버전 정보",
                       style: buttonText,
                     ),
                     const Spacer(),

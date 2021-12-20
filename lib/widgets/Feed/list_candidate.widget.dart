@@ -26,9 +26,9 @@ class _ListCandidateState extends State<ListCandidate> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: widget.dataList.length,
+      itemCount:5,
       itemBuilder: (context, int index) {
-        String dateString = widget.dataList[index]['expireDate'].split('T')[0];
+        // String dateString = widget.dataList[index]['expireDate'].split('T')[0];
 
         return GestureDetector(
           onTap: () {
@@ -65,7 +65,7 @@ class _ListCandidateState extends State<ListCandidate> {
                     Container(
                       margin: const EdgeInsets.only(bottom: 5),
                       child: Text(
-                        widget.dataList[index]['name'],
+                        "상품 이름",
                         style: const TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
@@ -79,11 +79,11 @@ class _ListCandidateState extends State<ListCandidate> {
                           ),
                           children: [
                             TextSpan(
-                              text: "입찰가 ",
+                              text: "입찰가   ",
                               style: keyText,
                             ),
                             TextSpan(
-                              text: widget.dataList[index]['startPrice'].toString() + "원",
+                              text: "10000 원",
                               style: valueText,
                             )
                           ]),
@@ -95,11 +95,11 @@ class _ListCandidateState extends State<ListCandidate> {
                           ),
                           children: [
                             TextSpan(
-                              text: "입찰수 ",
+                              text: "좋아요   ",
                               style: keyText,
                             ),
                             TextSpan(
-                              text: widget.dataList[index]['bidCount'].toString() + "회",
+                              text: "100 회",
                               style: valueText,
                             )
                           ]),
@@ -111,11 +111,11 @@ class _ListCandidateState extends State<ListCandidate> {
                           ),
                           children: [
                             TextSpan(
-                              text: "마감일 ",
+                              text: "마감일   ",
                               style: keyText,
                             ),
                             TextSpan(
-                              text: dateString,
+                              text: "2021.12.31 23:59",
                               style: valueText,
                             )
                           ]),

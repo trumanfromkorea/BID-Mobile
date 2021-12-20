@@ -91,7 +91,7 @@ class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateM
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 2);
-    initList();
+    // initList();
   }
 
   @override
